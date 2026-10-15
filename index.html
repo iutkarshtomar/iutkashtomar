@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- first thing in <head>: an inline script placed after a stylesheet <link> waits for that sheet,
+       so a stalled CDN could otherwise hold the whole page blank -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.remove('no-js'); d.classList.add('js');
+      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      d.classList.add(reduce ? 'static' : 'motion');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      try { if (window.sessionStorage && sessionStorage.getItem('ust:intro') === '1') d.classList.add('intro-seen'); } catch (e) { /* storage blocked */ }
+      // watchdog: if the motion libraries (CDN) haven't booted main.js in time, settle on the
+      // static layout instead of a half-built motion one. main.js clears this timer on boot.
+      if (!reduce) {
+        window.__ustWatchdog = setTimeout(function () {
+          if (window.__ustBooted) return;
+          d.classList.remove('motion'); d.classList.add('static');
+        }, 4500);
+      }
+    })();
+  </script>
+  <title>Utkarsh Singh Tomar — CSE @ Bennett University · Portfolio</title>
+  <meta name="description" content="Utkarsh Singh Tomar — B.Tech CSE sophomore at Bennett University (BU'29), Python enthusiast building with data structures and backend systems. Based in Greater Noida, India.">
+  <meta name="theme-color" content="#050507">
+  <meta name="color-scheme" content="dark">
+  <meta name="author" content="Utkarsh Singh Tomar">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Utkarsh Singh Tomar — Portfolio">
+  <meta property="og:description" content="B.Tech CSE sophomore @ Bennett University · BU'29 · Python enthusiast · Building with data structures & backend systems.">
+  <!-- once hosted: make og:image an absolute URL (https://your-domain/assets/utkarsh.jpg) and add og:url -->
+  <meta property="og:image" content="assets/utkarsh.jpg">
+  <meta property="og:image:alt" content="Portrait of Utkarsh Singh Tomar">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Utkarsh Singh Tomar — Portfolio">
+  <meta name="twitter:description" content="B.Tech CSE sophomore @ Bennett University · BU'29 · Python enthusiast.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='38%25' r='62%25'%3E%3Cstop offset='0' stop-color='%23ff5fd0'/%3E%3Cstop offset='.5' stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%23101030'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23050507'/%3E%3Ccircle cx='32' cy='32' r='25' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-style='italic' font-size='32' text-anchor='middle' fill='%23ffffff'%3EU%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <!-- lenis.css (1.3.4) is inlined at the top of css/style.css: no render-blocking third-party sheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/render.css">
+  <link rel="stylesheet" href="css/terminal.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="pl-glow"></div>
+    <div class="pl-inner">
+      <p class="pl-kicker mono"><span class="pl-dot"></span> U.S.T. <span class="pl-sep"></span> Portfolio MMXXVI</p>
+      <p class="pl-name"><span class="pl-word">Utkar<em class="grad">sh</em></span></p>
+      <div class="pl-bar"><i id="plBar"></i></div>
+      <div class="pl-row mono"><span>Loading</span><span><b id="plCount">000</b>%</span></div>
+    </div>
+    <p class="pl-skip mono"><span class="pl-skip-key">Skip intro</span><span>click, tap or press any key</span></p>
+  </div>
+
+  <!-- ============ AMBIENT LAYERS ============ -->
+  <div class="aura-bg" aria-hidden="true">
+    <div class="aura-fallback"><i></i><i></i><i></i></div>
+    <canvas id="aura"></canvas>
+    <div class="aura-vignette"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-ring"><span class="cursor-label"></span></div>
+    <div class="cursor-dot"></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" data-scroll aria-label="Utkarsh Singh Tomar — back to top">
+      <span class="nav-mono">U</span><span class="nav-logo-text">Utkarsh Singh Tomar</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about" data-scroll><span data-text="About">About</span></a>
+      <a href="#stack" data-scroll><span data-text="Stack">Stack</span></a>
+      <a href="#certs" data-scroll><span data-text="Certs">Certs</span></a>
+      <a href="#education" data-scroll><span data-text="Education">Education</span></a>
+      <a href="#now" data-scroll><span data-text="Now">Now</span></a>
+      <a href="#work" data-scroll><span data-text="Work">Work</span></a>
+    </nav>
+    <a class="nav-cta btn-pill" href="#contact" data-scroll data-magnetic>
+      <span class="btn-dot"></span><span>Let’s connect</span>
+    </a>
+    <button class="nav-menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="nav-menu-label">Menu</span><span class="nav-menu-icon" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </header>
+
+  <div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" data-lenis-prevent hidden>
+    <nav class="menu-links" aria-label="Mobile">
+      <a href="#about" data-scroll><em>01</em>About</a>
+      <a href="#stack" data-scroll><em>02</em>Stack</a>
+      <a href="#certs" data-scroll><em>03</em>Certifications</a>
+      <a href="#education" data-scroll><em>04</em>Education</a>
+      <a href="#now" data-scroll><em>05</em>Now</a>
+      <a href="#work" data-scroll><em>06</em>Work</a>
+      <a href="#contact" data-scroll><em>07</em>Contact</a>
+    </nav>
+    <p class="menu-foot mono">Greater Noida, India · <span data-ist>IST</span></p>
+  </div>
+
+  <!-- ============ HUD ============ -->
+  <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+  <div class="hud" aria-hidden="true">
+    <div class="meter">
+      <span class="meter-label mono">Scroll</span>
+      <span class="meter-bar"><i id="meterBar"></i></span>
+      <span class="meter-val mono" id="meterVal">000%</span>
+    </div>
+    <div class="hud-section mono"><span id="hudIdx">00</span><span class="hud-sep" id="hudSep">/07</span><span class="hud-name" id="hudName">Intro</span></div>
+  </div>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top" data-section="00" data-label="Intro" data-aura="1">
+      <h1 class="sr-only">Utkarsh Singh Tomar — B.Tech CSE <span data-year-word>Sophomore</span> at Bennett University</h1>
+      <div class="hero-halo" aria-hidden="true"></div>
+      <div class="hero-name" aria-hidden="true">
+        <span class="hero-name-inner"><span class="ch">U</span><span class="ch">t</span><span class="ch">k</span><span class="ch">a</span><span class="ch">r</span><span class="ch">s</span><span class="ch">h</span></span>
+      </div>
+      <div class="hero-figure" id="heroFigure">
+        <div class="hero-figure-inner">
+          <picture>
+            <source srcset="assets/utkarsh-cutout.webp" type="image/webp">
+            <img src="assets/utkarsh-cutout.png" width="800" height="800" alt="Utkarsh Singh Tomar — curly dark hair, glasses, black suit over an open-collar white shirt, glancing down to the side" fetchpriority="high">
+          </picture>
+        </div>
+      </div>
+      <p class="hero-last" aria-hidden="true"><span>Singh</span> <span>Tomar</span></p>
+
+      <div class="hero-top-meta">
+        <p class="mono hero-kicker"><span class="dot-live"></span>Portfolio — MMXXVI</p>
+        <p class="mono hero-kicker hero-kicker--r">BU’29 · Computer Science &amp; Engineering</p>
+      </div>
+
+      <p class="hero-role">
+        <span class="hero-role-line">B.Tech CSE <span data-year-word>Sophomore</span></span>
+        <span class="hero-role-line">@ <em>Bennett University</em></span>
+      </p>
+
+      <div class="hero-bottom">
+        <a class="hero-scroll mono" href="#about" data-scroll aria-label="Scroll to explore — About">
+          <span class="hero-scroll-line" aria-hidden="true"></span>
+          <span>Scroll to explore</span>
+        </a>
+        <p class="hero-tag">
+          <span class="mono">Python enthusiast</span>
+          <span>Building with data structures &amp; backend systems.</span>
+          <span class="mono hero-loc">Greater Noida, India</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true" data-marquee="1">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="m-serif">Python</span><span class="m-star">✦</span>
+          <span class="m-sans">Java</span><span class="m-star">✦</span>
+          <span class="m-serif">C</span><span class="m-star">✦</span>
+          <span class="m-sans">Web Development</span><span class="m-star">✦</span>
+          <span class="m-serif">Cloud</span><span class="m-star">✦</span>
+          <span class="m-sans">DevOps</span><span class="m-star">✦</span>
+          <span class="m-serif">Scalable Applications</span><span class="m-star">✦</span>
+          <span class="m-sans">Backend Systems</span><span class="m-star">✦</span>
+          <span class="m-serif">Data Structures</span><span class="m-star">✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ INTERLUDE 01 · typed reveal ============ -->
+    <section class="quote quote--typed" data-quote="typed" data-aura="1" data-section="—" data-label="Interlude 01" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">01 <i>/</i> 07</span></p>
+          <blockquote class="quote-text quote-text--typed"><p>Talk is cheap. <em class="grad">Show me the code.</em></p></blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><cite class="q-attr-name mono">Linus Torvalds</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about" data-section="01" data-label="About" data-aura="0.4">
+      <header class="sec-head">
+        <p class="sec-idx mono">(01)</p>
+        <h2 class="sec-title"><span class="reveal-line"><span>About</span></span> <em class="reveal-line"><span>me.</span></em></h2>
+      </header>
+
+      <div class="about-grid">
+        <p class="about-lead" data-lit>
+          Hi, I’m <em>Utkarsh Singh Tomar</em> — a second-year B.Tech student at <em>Bennett University</em>, passionate about web development and building <em>real-world solutions</em> with modern technologies.
+        </p>
+
+        <!-- Scroll-scrubbed render: block → halftone → ASCII → dither, then a scan-wipe to the photo (js/render.js) -->
+        <figure class="render" id="render" data-reveal>
+          <div class="render-frame" id="renderFrame">
+            <canvas class="render-cv" id="renderCanvas" aria-hidden="true"></canvas>
+            <img class="render-photo" id="renderPhoto" src="assets/utkarsh-portrait.webp" width="564" height="752" loading="lazy" alt="Utkarsh Singh Tomar in a black suit, photographed in a softly lit office">
+            <span class="render-scan" id="renderScan" aria-hidden="true"></span>
+          </div>
+          <figcaption class="render-cap">
+            <span class="render-fig mono">Fig. 01 — U.S.T., <span id="rState">in focus</span></span>
+            <span class="render-bar" aria-hidden="true"><i id="rBar"></i></span>
+            <span class="render-tele mono" aria-hidden="true">
+              <span>Mode <b id="rMode">Source</b></span>
+              <span>Grid <b id="rGrid">564×752</b></span>
+              <span>Pass <b id="rPass">12/12</b></span>
+              <span><b id="rPct">100%</b></span>
+            </span>
+          </figcaption>
+        </figure>
+
+        <div class="about-body">
+          <p data-reveal>I’m interested in <strong>cloud</strong>, <strong>DevOps</strong> and <strong>scalable applications</strong>. I love exploring new tools, improving my problem-solving skills, and collaborating on projects that make an impact.</p>
+          <p class="about-sign" data-reveal>Let’s connect and build something cool!<span class="mono">— Utkarsh</span></p>
+        </div>
+
+        <dl class="facts" data-reveal-group>
+          <div class="fact"><dt class="mono">Based</dt><dd>Greater Noida, India</dd></div>
+          <div class="fact"><dt class="mono">Studying</dt><dd>B.Tech, Computer Science &amp; Engineering</dd></div>
+          <div class="fact"><dt class="mono">At</dt><dd>Bennett University</dd></div>
+          <div class="fact"><dt class="mono">Class of</dt><dd>BU’29</dd></div>
+          <div class="fact"><dt class="mono">Year</dt><dd id="factYear">Sophomore — 2nd year</dd></div>
+          <div class="fact"><dt class="mono">Speaks</dt><dd>Python · Java · C</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ INTERLUDE 02 · opposing drift ============ -->
+    <section class="quote quote--drift" data-quote="drift" data-aura="1" data-section="—" data-label="Interlude 02" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">02 <i>/</i> 07</span></p>
+          <blockquote class="quote-text">
+            <p><span class="drift-line drift-l">Be water,</span> <span class="drift-line drift-r"><em class="grad">my friend.</em></span></p>
+          </blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><cite class="q-attr-name mono">Bruce Lee</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ STACK ============ -->
+    <section class="stack" id="stack" data-section="02" data-label="Stack &amp; Skills" data-aura="0.55" data-hud-off>
+      <div class="stack-sticky">
+        <div class="stack-track" id="stackTrack">
+          <div class="stack-intro">
+            <p class="sec-idx mono">(02)</p>
+            <h2 class="sec-title stack-title"><span class="reveal-line"><span>The</span></span> <em class="reveal-line"><span>toolkit.</span></em></h2>
+            <p class="stack-note">The languages I build with — plus my top skills.</p>
+            <p class="stack-hint mono" aria-hidden="true"><span>Scroll</span><span class="stack-hint-arrow">→</span></p>
+          </div>
+
+          <article class="lang-card" data-tilt>
+            <div class="lang-top mono"><span>01 / 04</span><span>language</span></div>
+            <div class="lang-glyph" aria-hidden="true"><span><i>.</i>py</span></div>
+            <h3 class="lang-name">Python</h3>
+            <p class="lang-desc">Python enthusiast, first and foremost.</p>
+            <pre class="lang-code mono"><code><span class="c">&gt;&gt;&gt;</span> <span class="f">print</span>(<span class="s">"hello, world"</span>)
+<span class="c">hello, world</span></code></pre>
+          </article>
+
+          <article class="lang-card" data-tilt>
+            <div class="lang-top mono"><span>02 / 04</span><span>language</span></div>
+            <div class="lang-glyph" aria-hidden="true"><span><i>.</i>java</span></div>
+            <h3 class="lang-name">Java</h3>
+            <p class="lang-desc">Types, objects and structure — the discipline side of the stack.</p>
+            <pre class="lang-code mono"><code>System.out.<span class="f">println</span>(
+    <span class="s">"hello, world"</span>);</code></pre>
+          </article>
+
+          <article class="lang-card" data-tilt>
+            <div class="lang-top mono"><span>03 / 04</span><span>language</span></div>
+            <div class="lang-glyph" aria-hidden="true"><span><i>.</i>c</span></div>
+            <h3 class="lang-name">C</h3>
+            <p class="lang-desc">Close to the metal. Pointers, memory and patience.</p>
+            <pre class="lang-code mono"><code><span class="k">#include</span> <span class="s">&lt;stdio.h&gt;</span>
+<span class="f">printf</span>(<span class="s">"hello, world\n"</span>);</code></pre>
+          </article>
+
+          <article class="lang-card" data-tilt>
+            <div class="lang-top mono"><span>04 / 04</span><span>craft</span></div>
+            <div class="lang-glyph" aria-hidden="true"><span><i>.</i>html</span></div>
+            <h3 class="lang-name">Web Development</h3>
+            <p class="lang-desc">The passion — building real-world solutions with modern tech.</p>
+            <pre class="lang-code mono"><code>&lt;<span class="k">h1</span>&gt;
+  hello, world
+&lt;/<span class="k">h1</span>&gt;</code></pre>
+          </article>
+
+          <div class="skills-panel">
+            <p class="mono skills-kicker">Top skills</p>
+            <ol class="skills-list">
+              <li class="skill-row"><span class="mono skill-n">01</span><span class="skill-name">Machine <em>Learning</em></span></li>
+              <li class="skill-row"><span class="mono skill-n">02</span><span class="skill-name">Electronic <em>Circuits</em></span></li>
+              <li class="skill-row"><span class="mono skill-n">03</span><span class="skill-name">Digital Circuit <em>Design</em></span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INTERLUDE 03 · horizontal crawl ============ -->
+    <section class="quote quote--wide" data-quote="wide" data-aura="1" data-section="—" data-label="Interlude 03" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig quote-fig--wide">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">03 <i>/</i> 07</span></p>
+          <blockquote class="quote-text quote-text--wide"><p class="wide-line">Everybody has a plan until they get <em class="grad">punched in the mouth.</em></p></blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><cite class="q-attr-name mono">Mike Tyson</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ CERTIFICATIONS ============ -->
+    <section class="section certs" id="certs" data-section="03" data-label="Certifications" data-aura="0.4">
+      <div class="certs-grid">
+        <div class="certs-aside">
+          <p class="sec-idx mono">(03)</p>
+          <h2 class="sec-title"><span class="reveal-line"><span>Certi</span></span><em class="reveal-line"><span>fied.</span></em></h2>
+          <div class="certs-count" aria-hidden="true"><span class="certs-count-n" id="certCount">05</span><span class="mono">certificates<br>on record</span></div>
+          <p class="certs-note">Circuits, digital electronics, Python and machine learning — five certificates I’ve earned.</p>
+        </div>
+        <ol class="cert-list">
+          <li class="cert" data-reveal data-cert="01">
+            <span class="cert-n mono">01</span>
+            <div class="cert-body">
+              <h3 class="cert-title">Electronic Circuits and Number System</h3>
+            </div>
+            <span class="cert-arrow" aria-hidden="true">✦</span>
+          </li>
+          <li class="cert" data-reveal data-cert="02">
+            <span class="cert-n mono">02</span>
+            <div class="cert-body">
+              <h3 class="cert-title">Digital Electronics</h3>
+              <p class="cert-sub mono">Online Digital Electronics Courses</p>
+            </div>
+            <span class="cert-arrow" aria-hidden="true">✦</span>
+          </li>
+          <li class="cert" data-reveal data-cert="03">
+            <span class="cert-n mono">03</span>
+            <div class="cert-body">
+              <h3 class="cert-title">Combinational Digital Circuits</h3>
+            </div>
+            <span class="cert-arrow" aria-hidden="true">✦</span>
+          </li>
+          <li class="cert" data-reveal data-cert="04">
+            <span class="cert-n mono">04</span>
+            <div class="cert-body">
+              <h3 class="cert-title">Introduction to Programming Using Python</h3>
+            </div>
+            <span class="cert-arrow" aria-hidden="true">✦</span>
+          </li>
+          <li class="cert" data-reveal data-cert="05">
+            <span class="cert-n mono">05</span>
+            <div class="cert-body">
+              <h3 class="cert-title">Machine Learning</h3>
+            </div>
+            <span class="cert-arrow" aria-hidden="true">✦</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ INTERLUDE 04 · outline to fill ============ -->
+    <section class="quote quote--fill" data-quote="fill" data-aura="1" data-section="—" data-label="Interlude 04" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">04 <i>/</i> 07</span></p>
+          <blockquote class="quote-text quote-text--fill">
+            <p class="fill-base">I am <em>inevitable.</em></p>
+            <p class="fill-top" aria-hidden="true">I am <em>inevitable.</em></p>
+          </blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><span class="q-attr-name mono">Thanos,</span> <cite class="q-attr-src">Avengers: Endgame</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section class="section edu" id="education" data-section="04" data-label="Education" data-aura="0.4">
+      <header class="sec-head">
+        <p class="sec-idx mono">(04)</p>
+        <h2 class="sec-title"><span class="reveal-line"><span>Education,</span></span> <em class="reveal-line"><span>in progress.</span></em></h2>
+      </header>
+
+      <div class="edu-list">
+        <span class="edu-rail" aria-hidden="true"><i id="eduRail"></i></span>
+
+        <article class="edu-item edu-item--main" data-reveal>
+          <span class="edu-node" aria-hidden="true"></span>
+          <p class="edu-when mono">Aug 2025 — Jul 2029 · <span class="edu-live">in progress</span></p>
+          <h3 class="edu-school">Bennett University</h3>
+          <p class="edu-degree">Bachelor of Technology — <em>Computer Science &amp; Engineering</em></p>
+
+          <div class="degree" id="degree">
+            <div class="degree-head mono">
+              <span>Degree compiled <b id="degreePct">—</b></span>
+              <span id="degreeYear">Year 2 of 4 · BU’29</span>
+            </div>
+            <div class="degree-bar" role="progressbar" aria-label="Degree progress, computed from today's date" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="degreeBar">
+              <i class="degree-fill" id="degreeFill"></i>
+              <span class="degree-head-dot" id="degreeDot"><span class="mono">you are here</span></span>
+            </div>
+            <div class="degree-ticks mono" aria-hidden="true"><span>2025</span><span>2026</span><span>2027</span><span>2028</span><span>2029</span></div>
+            <p class="degree-note mono">live — computed from today’s date, Aug 2025 → Jul 2029</p>
+          </div>
+
+          <figure class="mini-quote" data-reveal>
+            <blockquote><p>“Discipline equals freedom.”</p></blockquote>
+            <figcaption class="q-attr q-attr--start"><span class="q-attr-line" aria-hidden="true"></span><cite class="q-attr-name mono">Jocko Willink</cite></figcaption>
+          </figure>
+        </article>
+
+        <article class="edu-item" data-reveal>
+          <span class="edu-node" aria-hidden="true"></span>
+          <p class="edu-when mono">Senior secondary · 10+2</p>
+          <h3 class="edu-school">Central Board of Secondary Education <span class="edu-abbr">(CBSE)</span></h3>
+          <p class="edu-degree">Class 12 — <em>PCM</em></p>
+          <ul class="edu-tags" aria-label="Subjects">
+            <li>Physics</li><li>Chemistry</li><li>Mathematics</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ INTERLUDE 05 · blur to glow ============ -->
+    <section class="quote quote--glow quote--surge" data-quote="glow" data-aura="1" data-section="—" data-label="Interlude 05" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">05 <i>/</i> 07</span></p>
+          <blockquote class="quote-text quote-text--long"><p>Throughout Heaven and Earth, <em class="grad">I alone am the honored one.</em></p></blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><span class="q-attr-name mono">Satoru Gojo,</span> <cite class="q-attr-src">Jujutsu Kaisen</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ NOW ============ -->
+    <section class="section now" id="now" data-section="05" data-label="Now" data-aura="0.45">
+      <header class="sec-head">
+        <p class="sec-idx mono">(05)</p>
+        <h2 class="sec-title"><span class="reveal-line"><span>Right</span></span> <em class="reveal-line"><span>now.</span></em></h2>
+        <p class="sec-sub">What I’m building with, passionate about and exploring.</p>
+      </header>
+
+      <div class="now-grid">
+        <ul class="now-list">
+          <li class="now-row" data-reveal><span class="now-name">Data Structures</span><span class="now-tag mono"><i></i>building with</span></li>
+          <li class="now-row" data-reveal><span class="now-name">Backend Systems</span><span class="now-tag mono"><i></i>building with</span></li>
+          <li class="now-row" data-reveal><span class="now-name">Web Development</span><span class="now-tag mono"><i></i>passionate about</span></li>
+          <li class="now-row" data-reveal><span class="now-name">Cloud</span><span class="now-tag now-tag--x mono"><i></i>exploring</span></li>
+          <li class="now-row" data-reveal><span class="now-name">DevOps</span><span class="now-tag now-tag--x mono"><i></i>exploring</span></li>
+          <li class="now-row" data-reveal><span class="now-name">Scalable Applications</span><span class="now-tag now-tag--x mono"><i></i>exploring</span></li>
+        </ul>
+
+        <!-- Interactive terminal (js/terminal.js) — type `help` -->
+        <div class="term tty" id="tty" data-reveal>
+          <div class="term-bar">
+            <span></span><span></span><span></span>
+            <p class="mono">utkarsh@bu29: ~ — zsh</p>
+            <span class="tty-live mono"><i></i>Live</span>
+          </div>
+          <div class="tty-screen mono" id="ttyScreen">
+            <div class="tty-out" id="ttyOut" role="log" aria-live="polite" aria-label="Terminal output">
+              <p class="t-cmd"><b>$</b> <span class="t-typed" data-cmd="status">status</span></p>
+              <dl class="t-kv">
+                <div class="t-pre"><dt>name</dt><dd>Utkarsh Singh Tomar</dd></div>
+                <div class="t-pre"><dt>role</dt><dd>B.Tech CSE sophomore, Bennett University</dd></div>
+                <div class="t-pre"><dt>class</dt><dd>BU’29 · 2nd year</dd></div>
+                <div class="t-pre"><dt>base</dt><dd>Greater Noida, India</dd></div>
+                <div class="t-pre"><dt>building</dt><dd>data structures, backend systems</dd></div>
+                <div class="t-pre"><dt>exploring</dt><dd>cloud, devops, scalable applications</dd></div>
+                <div class="t-pre"><dt>open to</dt><dd>collaborating on projects that make an impact</dd></div>
+              </dl>
+              <p class="t-hint t-pre" id="ttyHint"># this terminal is live — type <kbd>help</kbd> <span class="t-nw">and press enter</span></p>
+            </div>
+            <form class="tty-form" id="ttyForm" autocomplete="off">
+              <label class="tty-ps" for="ttyIn"><b>$</b><span class="sr-only">Terminal command</span></label>
+              <span class="sr-only" id="ttyHelp">This terminal is live: type help and press enter to list the commands.</span>
+              <span class="tty-field">
+                <input class="tty-in" id="ttyIn" name="cmd" type="text" enterkeyhint="send" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-describedby="ttyHelp">
+                <span class="tty-ph" aria-hidden="true">try <em>quote</em> or <em>edu</em></span>
+                <span class="tty-caret" aria-hidden="true"></span>
+                <span class="tty-measure" aria-hidden="true">0000000000</span>
+              </span>
+            </form>
+          </div>
+          <div class="tty-keys" role="group" aria-label="Quick commands">
+            <span class="tty-keys-k mono" aria-hidden="true">Try</span>
+            <button type="button" class="tty-key mono" data-run="help">help</button>
+            <button type="button" class="tty-key mono" data-run="whoami">whoami</button>
+            <button type="button" class="tty-key mono" data-run="edu">edu</button>
+            <button type="button" class="tty-key mono" data-run="certs">certs</button>
+            <button type="button" class="tty-key mono" data-run="quote">quote</button>
+            <button type="button" class="tty-key mono" data-run="contact">contact</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INTERLUDE 06 · scaling stack ============ -->
+    <section class="quote quote--stack" data-quote="stack" data-aura="1" data-section="—" data-label="Interlude 06" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">06 <i>/</i> 07</span></p>
+          <blockquote class="quote-text quote-text--stack">
+            <p><span class="stk stk-1">Do.</span> <span class="stk stk-2">Or do not.</span> <span class="stk stk-3"><em class="grad">There is no try.</em></span></p>
+          </blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><span class="q-attr-name mono">Yoda,</span> <cite class="q-attr-src">The Empire Strikes Back</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ WORK / PROJECTS ============ -->
+    <section class="section work" id="work" data-section="06" data-label="Work" data-aura="0.45">
+      <header class="sec-head">
+        <p class="sec-idx mono">(06)</p>
+        <h2 class="sec-title"><span class="reveal-line"><span>Selected</span></span> <em class="reveal-line"><span>work.</span></em></h2>
+      </header>
+      <div class="projects" id="projects" aria-live="polite"></div>
+    </section>
+
+    <!-- ============ INTERLUDE 07 · opposing drift ============ -->
+    <section class="quote quote--drift" data-quote="drift" data-aura="1" data-section="—" data-label="Interlude 07" data-hud-off>
+      <div class="quote-sticky">
+        <figure class="quote-fig">
+          <p class="quote-cap mono" aria-hidden="true"><span class="q-idx">Interlude</span><span class="q-line"></span><span class="q-num">07 <i>/</i> 07</span></p>
+          <blockquote class="quote-text">
+            <p><span class="drift-line drift-l">Stay hungry.</span> <span class="drift-line drift-r"><em class="grad">Stay foolish.</em></span></p>
+          </blockquote>
+          <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><cite class="q-attr-name mono">Steve Jobs</cite></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact" data-section="07" data-label="Contact" data-aura="0.8" data-hud-off>
+      <p class="sec-idx mono">(07) Contact</p>
+      <h2 class="contact-title">
+        <span class="reveal-line"><span>Let’s build</span></span>
+        <span class="reveal-line"><span>something <em class="grad">cool.</em></span></span>
+      </h2>
+
+      <a class="contact-mail" href="mailto:utkarshsingh4155@gmail.com" data-cursor="Mail">
+        <span class="contact-mail-text">utkarshsingh4155@gmail.com</span>
+        <span class="contact-mail-line" aria-hidden="true"></span>
+      </a>
+
+      <div class="contact-actions">
+        <a class="btn btn--solid" href="mailto:utkarshsingh4155@gmail.com" data-magnetic data-cursor="Say hi">
+          <span class="btn-fill" aria-hidden="true"></span><span class="btn-label">Send an email</span><span class="btn-ico" aria-hidden="true">↗</span>
+        </a>
+        <button class="btn" type="button" id="copyBtn" data-email="utkarshsingh4155@gmail.com" data-magnetic data-cursor="Copy">
+          <span class="btn-fill" aria-hidden="true"></span><span class="btn-label" id="copyLabel">Copy email</span><span class="btn-ico" aria-hidden="true">⧉</span>
+        </button>
+        <a class="btn" href="https://www.linkedin.com/in/utkarsh-singh-tomar-1627992b6" target="_blank" rel="noopener noreferrer" data-magnetic data-cursor="Open">
+          <span class="btn-fill" aria-hidden="true"></span><span class="btn-label">LinkedIn</span><span class="btn-ico" aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <p class="toast mono" id="toast" role="status" aria-live="polite"></p>
+    </section>
+
+    <div class="marquee marquee--rev" aria-hidden="true" data-marquee="-1">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="m-sans">Let’s connect</span><span class="m-star">✦</span>
+          <span class="m-serif">Build something cool</span><span class="m-star">✦</span>
+          <span class="m-sans">Greater Noida</span><span class="m-star">✦</span>
+          <span class="m-serif">BU’29</span><span class="m-star">✦</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER (a contentinfo landmark: outside <main>) ============ -->
+  <footer class="footer" data-section="07" data-label="Sign-off" data-aura="0.9" data-hud-off>
+    <div class="footer-row">
+      <div class="footer-cell">
+        <p class="mono footer-k">Local time</p>
+        <p class="footer-v"><span data-ist id="clock">--:--:--</span> <span class="mono">IST</span></p>
+      </div>
+      <div class="footer-cell">
+        <p class="mono footer-k">Based in</p>
+        <p class="footer-v">Greater Noida, India</p>
+      </div>
+      <div class="footer-cell">
+        <p class="mono footer-k">Uptime</p>
+        <p class="footer-v"><span id="uptime">00:00:00</span> <span class="mono footer-note">since you arrived</span></p>
+      </div>
+      <div class="footer-cell footer-cell--end">
+        <a class="btn btn--round" href="#top" data-scroll data-magnetic data-cursor="Up" aria-label="Back to top">
+          <span class="btn-fill" aria-hidden="true"></span><span class="btn-label">↑</span>
+        </a>
+      </div>
+    </div>
+
+    <figure class="signoff" id="signoff">
+      <p class="signoff-k mono" aria-hidden="true"><span class="q-line"></span>Sign-off<span class="q-line"></span></p>
+      <blockquote class="signoff-q"><p><span class="signoff-w"><span>Mamba</span></span> <span class="signoff-w"><em class="grad">out.</em></span></p></blockquote>
+      <figcaption class="q-attr"><span class="q-attr-line" aria-hidden="true"></span><cite class="q-attr-name mono">Kobe Bryant</cite></figcaption>
+    </figure>
+
+    <p class="footer-giant" aria-hidden="true"><span>Utkarsh</span></p>
+
+    <div class="footer-base mono">
+      <span>© 2026 Utkarsh Singh Tomar</span>
+      <span>Greater Noida, India · BU’29</span>
+      <span>Built by a friend, for a friend.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+  <script src="js/aura.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/portrait-data.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/terminal.js"></script>
+</body>
+</html>

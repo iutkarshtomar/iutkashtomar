@@ -1,0 +1,193 @@
+/* ==========================================================================
+   NOW — interactive terminal (js/terminal.js)
+   Sits on A's glass .term shell (border, gradient, shadow, sticky on
+   desktop). Output scrolls inside a fixed-height screen; page scrolling
+   only yields to it while the output can actually scroll that way.
+   ========================================================================== */
+.tty { display: flex; flex-direction: column; }
+.tty:focus-within {
+  border-color: rgba(255, 143, 216, .45);
+  box-shadow: 0 0 0 1px rgba(255, 143, 216, .18), 0 50px 120px -46px rgba(124, 92, 255, .8);
+}
+
+/* title bar: dots · title · live badge */
+.tty .term-bar p { margin-left: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; text-transform: none; letter-spacing: .02em; }
+.term-bar .tty-live {
+  width: auto; height: auto; border-radius: 99px; background: none;
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 10px;
+  border: 1px solid var(--line-2);
+  color: var(--ink-2); font-size: 10px;
+}
+.tty-live i { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 10px var(--pink); }
+.motion .tty-live i { animation: pulse 2.2s ease-in-out infinite; }
+
+/* screen */
+.tty-screen {
+  height: clamp(360px, 48vh, 470px);
+  overflow-y: auto;
+  overscroll-behavior: auto;
+  padding: 20px 22px 10px;
+  font-size: 13.5px; line-height: 1.72; letter-spacing: 0; text-transform: none;
+  color: var(--ink-2);
+  cursor: text;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 182, 255, .25) transparent;
+}
+.tty-screen::-webkit-scrollbar { width: 6px; }
+.tty-screen::-webkit-scrollbar-thumb { background: rgba(200, 182, 255, .22); border-radius: 99px; }
+
+.tty-out > * + * { margin-top: 2px; }
+.tty-out p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.tty-out .t-cmd { color: var(--ink); margin-top: 12px; }
+.tty-out .t-cmd:first-child { margin-top: 0; }
+.t-cmd b, .tty-ps b { color: var(--pink); font-weight: 500; margin-right: 6px; }
+.t-dim { color: var(--ink-3); }
+.t-ok { color: var(--lilac); }
+.t-err { color: #ff9fb6; }
+.t-pk { color: var(--pink); }
+.tty-out a { color: var(--lilac); text-decoration: underline; text-decoration-color: rgba(200, 182, 255, .4); text-underline-offset: 3px; }
+.tty-out a:hover { color: var(--ink); text-decoration-color: var(--pink); }
+
+/* key / value rows (status, stack, now, contact, edu) */
+.t-kv { margin: 4px 0 0; }
+.t-kv > div { display: grid; grid-template-columns: 10.5ch minmax(0, 1fr); column-gap: 1ch; }
+.t-kv dt { color: var(--ink-3); }
+.t-kv dd { color: var(--ink); overflow-wrap: anywhere; }
+.t-kv--wide > div { grid-template-columns: 15ch minmax(0, 1fr); }
+
+.t-hint { margin-top: 14px !important; color: var(--ink-3); }
+.t-nw { white-space: nowrap; }
+.t-hint kbd, .tty-ph em {
+  font: inherit; font-style: normal;
+  color: var(--pink);
+}
+.t-hint kbd {
+  padding: 1px 7px; border-radius: 6px;
+  border: 1px solid rgba(255, 143, 216, .35);
+  background: rgba(241, 59, 184, .08);
+}
+
+/* degree bar inside `edu` */
+.t-meter { color: var(--ink-3); letter-spacing: -.02em; }
+.t-meter i { font-style: normal; color: var(--pink); text-shadow: 0 0 10px rgba(241, 59, 184, .55); }
+
+/* `quote` — a tiny editorial card: serif italic + hairline + mono name */
+.t-quote { margin: 10px 0 4px; padding-left: 14px; border-left: 1px solid rgba(200, 182, 255, .28); }
+.t-quote q {
+  display: block;
+  font-family: var(--serif); font-style: italic;
+  font-size: 21px; line-height: 1.15; letter-spacing: -.01em;
+  color: var(--ink);
+  quotes: "“" "”";
+}
+.t-quote .t-by { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; margin-top: 8px; }
+.t-quote .t-by::before {
+  content: ""; width: 28px; height: 1px; flex: none;
+  background: var(--grad); box-shadow: 0 0 8px rgba(241, 59, 184, .5);
+}
+.t-quote .t-name { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+.t-quote cite { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--lilac); }
+
+/* help table */
+.t-help > div { display: grid; grid-template-columns: 15ch minmax(0, 1fr); column-gap: 1ch; }
+.t-help dt { color: var(--pink); }
+.t-help dd { color: var(--ink-3); }
+
+/* prompt line with a block caret */
+.tty-form { display: flex; align-items: center; gap: 8.1px; min-height: 44px; margin-top: 8px; }
+.tty-ps { flex: none; }
+.tty-field { position: relative; display: block; flex: 1; min-width: 0; height: 44px; }
+.tty-in {
+  display: block; width: 100%; height: 44px;
+  margin: 0; padding: 0;
+  border: 0; outline: 0; border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  caret-color: var(--pink);
+  font-family: var(--mono); font-size: 13.5px; line-height: 44px; letter-spacing: 0;
+  -webkit-appearance: none; appearance: none;
+}
+.tty-in:focus, .tty-in:focus-visible { outline: 0; }
+.tty-ph {
+  position: absolute; left: 1.9ch; top: 0; line-height: 44px;
+  font-size: 13.5px;
+  color: var(--ink-3); white-space: nowrap; pointer-events: none;
+  overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 2ch);
+}
+.tty.is-typed .tty-ph { display: none; }
+.tty-caret {
+  position: absolute; left: 0; top: 50%;
+  width: 1ch; height: 1.3em; margin-top: -.68em;
+  font-size: 13.5px;
+  background: var(--pink);
+  box-shadow: 0 0 14px rgba(241, 59, 184, .75);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  display: none;
+}
+.tty.has-caret .tty-in { caret-color: transparent; }
+.tty.has-caret .tty-caret { display: block; }
+.tty.has-caret.is-range .tty-caret { display: none; }
+.motion .tty-caret { animation: blink 1.05s steps(1) infinite; }
+.motion .tty.is-typing .tty-caret { animation: none; }
+.tty-measure {
+  position: absolute; left: 0; top: 0;
+  visibility: hidden; white-space: pre;
+  font-family: var(--mono); font-size: 13.5px; letter-spacing: 0;
+}
+
+/* quick commands */
+.tty-keys {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--line);
+}
+.tty-keys-k { color: var(--ink-3); margin-right: 4px; font-size: 11px; }
+.tty-key {
+  display: inline-flex; align-items: center;
+  min-height: 34px; padding: 0 12px;
+  border-radius: 99px; border: 1px solid var(--line-2);
+  background: rgba(244, 240, 250, .03);
+  color: var(--ink-2);
+  font-size: 12px; text-transform: none; letter-spacing: .02em;
+  cursor: pointer;
+  transition: color .3s, border-color .3s, background-color .3s;
+}
+.tty-key:hover, .tty-key:focus-visible {
+  color: var(--ink);
+  border-color: rgba(200, 182, 255, .5);
+  background: rgba(124, 92, 255, .16);
+}
+.tty-key:focus-visible { outline-offset: 2px; }
+
+/* the site-wide custom cursor stays in charge over the terminal too */
+.has-cursor .tty-screen, .has-cursor .tty-in { cursor: none; }
+
+/* intro: the first `status` types itself in once the card is on screen */
+.tty.is-pre .t-pre { visibility: hidden; }
+
+/* no JS: the output still reads; the prompt and keys would do nothing */
+.no-js .tty-form, .no-js .tty-keys, .no-js .tty-live { display: none; }
+
+/* narrow desktops (the terminal column is ~460px): all six quick keys on one row */
+@media (min-width: 1024px) and (max-width: 1360px) {
+  .tty-keys { gap: 6px; padding: 12px 14px 14px; }
+  .tty-key { padding: 0 9px; }
+  .tty-keys-k { margin-right: 2px; }
+}
+
+/* touch: 16px input (no iOS zoom), roomier keys */
+@media (max-width: 1023px), (pointer: coarse) {
+  .tty-in, .tty-ph, .tty-caret, .tty-measure { font-size: 16px; }
+  .tty-key { min-height: 44px; padding: 0 14px; }
+}
+@media (max-width: 720px) {
+  .tty-screen { height: 420px; padding: 16px 16px 8px; font-size: 13px; line-height: 1.68; }
+  .t-kv > div { grid-template-columns: 9.5ch minmax(0, 1fr); }
+  .t-help > div, .t-kv--wide > div { grid-template-columns: 1fr; }
+  .t-help dd { padding-left: 2ch; margin-bottom: 4px; }
+  .tty-keys { padding: 12px 14px 14px; gap: 6px; }
+  .t-quote q { font-size: 19px; }
+}

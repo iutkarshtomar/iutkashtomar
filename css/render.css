@@ -1,0 +1,118 @@
+/* ==========================================================================
+   ABOUT — scroll-scrubbed portrait render (js/render.js)
+   Block → halftone → ASCII → dither on a canvas, then a scan-wipe to the
+   photo. Arch frame from the original "Fig. 01". Without motion (reduced
+   motion / no JS / render failure) the photo simply shows.
+   ========================================================================== */
+.render {
+  grid-column: 9 / 13; grid-row: 1 / span 3;
+  margin-top: .4em;
+  width: min(100%, 56vh);
+  justify-self: end;
+}
+
+.render-frame {
+  --wipe: 0;
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 999px 999px 28px 28px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--line-2);
+  background:
+    radial-gradient(90% 58% at 50% 30%, rgba(124, 92, 255, .17), transparent 72%),
+    linear-gradient(rgba(244, 240, 250, .03) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(244, 240, 250, .03) 1px, transparent 1px) 0 0 / 24px 24px,
+    #050507;
+  box-shadow:
+    0 40px 120px -40px rgba(124, 92, 255, calc(.6 + var(--wipe) * .3)),
+    0 0 calc(var(--wipe) * 90px) rgba(241, 59, 184, calc(var(--wipe) * .35));
+}
+/* tint + floor fade, shared by the render and the photo */
+.render-frame::after {
+  content: ""; position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(180deg, rgba(124, 92, 255, .1), rgba(5, 5, 7, 0) 40%, rgba(5, 5, 7, .5));
+  pointer-events: none;
+}
+
+/* canvas and photo share one intrinsic aspect (3:4) and the same object-fit,
+   so any frame shape crops both identically and the wipe lands on the pixel */
+.render-cv, .render-photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 30%;
+}
+.render-cv { z-index: 1; display: none; }
+.render-photo {
+  z-index: 2;
+  filter: saturate(.88) contrast(1.04);
+}
+.render.is-live .render-cv { display: block; }
+.render.is-live .render-photo { clip-path: inset(0 0 100% 0); will-change: clip-path; }
+
+.render-scan {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 4;
+  height: 2px; margin-top: -1px;
+  background: linear-gradient(90deg, rgba(165, 139, 255, 0), #a58bff 14%, #ff9ad9 42%, #fff 52%, #ff9ad9 62%, #5b8cff 86%, rgba(91, 140, 255, 0));
+  box-shadow: 0 0 16px 2px rgba(241, 59, 184, .75), 0 0 60px 10px rgba(124, 92, 255, .35);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+/* short afterglow trailing above the scan line */
+.render-scan::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 1px;
+  height: 70px;
+  background: linear-gradient(180deg, rgba(241, 59, 184, 0), rgba(241, 59, 184, .16) 70%, rgba(255, 190, 235, .3));
+}
+
+/* caption + live telemetry (A's mono caption language) */
+.render-cap { display: grid; gap: 12px; margin-top: 16px; }
+.render-fig { color: var(--ink-3); }
+.render-fig #rState { color: var(--ink-2); }
+.render-bar {
+  position: relative; display: block;
+  height: 1px; background: var(--line);
+  overflow: hidden;
+}
+.render-bar i {
+  position: absolute; inset: 0; display: block;
+  background: var(--grad);
+  box-shadow: 0 0 10px rgba(241, 59, 184, .55);
+  transform-origin: left; transform: scaleX(1);
+}
+.render-tele {
+  display: flex; justify-content: space-between; gap: 6px 14px; flex-wrap: wrap;
+  color: var(--ink-3);
+  font-size: 10.5px; letter-spacing: .1em;
+  white-space: nowrap;
+}
+.render-tele b {
+  font-weight: 500; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  margin-left: 4px;
+}
+.render-tele span:last-child b { margin-left: 0; color: var(--pink); }
+#rMode { display: inline-block; min-width: 8.2ch; }
+#rGrid { display: inline-block; min-width: 7ch; }
+
+/* desktop: the figure rides along (CSS sticky, no pin spacer) while the
+   copy on the left scrolls past, so the render never costs extra scroll */
+@media (min-width: 1024px) {
+  .motion .render { position: sticky; top: 13vh; align-self: start; }
+}
+
+/* 1024–1180: the sticky column is narrow — tighten the telemetry so it stays on one row */
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .render-tele { gap: 6px 10px; font-size: 10px; letter-spacing: .04em; }
+  .render-tele b { margin-left: 3px; }
+}
+
+@media (max-width: 1023px) {
+  .render { grid-column: 1 / 7; grid-row: auto; margin-top: 56px; width: 100%; justify-self: stretch; }
+}
+@media (max-width: 720px) {
+  .render { grid-column: 1 / -1; margin-top: 48px; }
+  .render-frame { aspect-ratio: 4 / 5; }
+  .render-tele { font-size: 10px; letter-spacing: .08em; }
+}
